@@ -1,0 +1,53 @@
+<p-table #dt [value]="works" [(selection)]="selectedWorks" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+[rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,15]" [loading]="loading"
+[paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+[filterDelay]="0" [globalFilterFields]="['title', 'publisher']">
+<ng-template pTemplate="caption">
+    <div class="table-header">
+        List of Articles
+        <span class="p-input-icon-left">
+            <input pInputText #textInput type="text" (input)="dt.filterGlobal(textInput.value, 'contains')"
+            placeholder="Search" /> 
+        </span>
+    </div>
+</ng-template>
+
+<ng-template pTemplate="header">
+    <tr>
+        <th pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
+        <th pSortableColumn="author">Author <p-sortIcon field="author"></p-sortIcon></th>
+        <th pSortableColumn="subject">Subject <p-sortIcon field="subject"></p-sortIcon></th>
+        <th pSortableColumn="published">Published Date <p-sortIcon field="published"></p-sortIcon></th>
+        <th pSortableColumn="publisher">Publisher <p-sortIcon field="publisher"></p-sortIcon></th>
+    </tr>  
+</ng-template>
+<ng-template pTemplate="body" let-work>
+    <tr class="p-selectable-row">
+        <td>
+            <span class="p-column-title">Title</span>
+            {{work.title}}
+        </td>
+        <td>
+            <span class="p-column-title">Author</span>
+            <span *ngFor="let auth of work.author" class="image-text">{{auth.given}} {{auth.family}}<br></span>
+        </td>
+        <td>
+            <span class="p-column-title">Subject</span>
+            <span *ngFor="let sub of work.subject" class="image-text">{{sub}}<br></span>
+        </td>
+        <td>
+            <span class="p-column-title">Published Date</span>
+            {{work.created.timestamp | date:'MM/dd/yyyy'}}
+        </td>
+        <td>
+            <span class="p-column-title">Publisher</span>
+            {{work.publisher}}
+        </td>
+    </tr>
+</ng-template>
+<ng-template pTemplate="emptymessage">
+    <tr>
+        <td colspan="8">No records found.</td>
+    </tr>
+</ng-template>
+</p-table>
